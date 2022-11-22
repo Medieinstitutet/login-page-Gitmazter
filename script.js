@@ -8,7 +8,7 @@ Dvs du kan hantera inloggningsuppgifter som statiska variabler eller i en array.
 
 VVVV Minst 1 användare skall ha användarnamn “janne” och lösenord “test”. 
 
---> En lyckad inloggning skall sparas i localStorage och sidan skall komma ihåg och 
+VVVVV En lyckad inloggning skall sparas i localStorage och sidan skall komma ihåg och 
 visa rätt vyer under tiden besökaren är inloggad.
 
 VVVVV Sidan skall innehålla en meny, en del för innehåll samt en footer.
@@ -29,11 +29,11 @@ Ditt projekt får enbart innehålla 1 st html sida, index.html alla vyer skall h
 Funktionskrav (100p – Minst 60p för G och 100p för VG)
 G KRAV (60p)
 
-    Ditt projekt skall kunna testas online via tex github pages. (10p)
+    --> Ditt projekt skall kunna testas online via tex github pages. (10p)
     VVV Sidan visar dynamiskt rätt innehåll hela tiden. (10p)
     VVV Det går att logga in. (10p)
-    Inloggning sparas i localStorage, dvs det skall gå att ladda om webbläsaren 
-    och sidan kommer ihåg rätt inloggad användare och visar rätt vy. (10p)
+    VVVV Inloggning sparas i localStorage, dvs det skall gå att ladda om webbläsaren 
+    VVVV och sidan kommer ihåg rätt inloggad användare och visar rätt vy. (10p)
     VVV Välkomstsidan skall dynamiskt visa rätt användarnamn beroende på vem som är inloggad. (10p)
     vvv Det går att logga ut. (10p)
 
@@ -46,10 +46,20 @@ VG KRAV (40p)
     vvvvvDu skall då använda localStorage som databas för användare. (20p)
 */
 
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+                            /* VARIABLES AND LOCALSTORAGE CHECKS */
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
  if (localStorage.getItem("accounts")) {
-    console.log('ls exists');
+    //console.log('ls exists');
 } else { 
-    console.log("ls does not exist") 
+    //console.log("ls does not exist") 
     let accounts = [
         {id:1, user:'philip', password:"Supersafe1!",},
         {id:2, user:'guh', password: "C4nt.go.tits.up",},
@@ -57,18 +67,8 @@ VG KRAV (40p)
     ];
 
     localStorage.setItem("accounts", JSON.stringify(accounts));
-    console.log("ls has been created");
+    //console.log("ls has been created");
   }  
-
-
-if (localStorage.getItem("my_session")) {
-    console.log('session exists');
-    let user;
-} else {
-    let my_session = [];
-    console.log(my_session);
-    localStorage.setItem("my_session", JSON.stringify(my_session));
-}
 
 // Declaring DOM variables for log in/logged in sections
 const account_section = document.getElementById('account_section');
@@ -87,67 +87,33 @@ const new_password_rep = document.getElementById('new_password_rep');
 const new_account_btn = document.getElementById('new_account_btn');
 const create_acc_div = document.getElementById('account_section');
 
-// new user input values
+// Timeout warning and logout
+var warning_timer_clock = 840000;     
+var logout_now_clock = 60000;
+const warning = document.getElementById('warning');   
+const timer_reset = document.getElementById('timer_reset');
 
 // Declaring variables for DOM manipulation
 const greeting = document.getElementById('user_greeting');
 const log_in_header = document.getElementById('login');
 const logged_in_header = document.getElementById('logged_in');
 const log_out = document.getElementById('log_out');
+const header_greeting = document.getElementById('header_greeting');
 let day;
 let time;
 let userid;
 
 const specialChars = ["!", "@", "#", "%" ,"^","&", "*", "(", ")", "-", "_", "+", "=", "?", "/", "<", ">", ".", ",", "|", "{", "}", "[", "]",];
 
-// Logging input values
-//console.log(username_input);
-//console.log(password_input);
-//console.log(new_username);
-//console.log(new_password, new_password_rep);
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+                                    /* MAIN FUNCTIONS */
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 // Log in ( run verification and change DOM to display account page)
@@ -155,29 +121,25 @@ log_in_btn.addEventListener('click',  function() {
     log_in();
 });
 
+
 function log_in() {
     let verified = verification();
-    //console.log(verification());
-    //console.log(verified);
+
     if (verified == true) {
-        //alert (' you have passed the check, welcome to donate to the NYSE');
-        // get time and display customized greeting,
         let accounts = JSON.parse(localStorage.getItem("accounts"));
 
-        console.log(localStorage.getItem("my_session"));
-        console.log(accounts[userid]);
+        //console.log(localStorage.getItem("my_session"));
+        //console.log(accounts[userid]);
         let my_session = JSON.parse(localStorage.getItem("my_session"));
         my_session = accounts[userid];
-        console.log(my_session);
+        //console.log(my_session);
         localStorage.setItem("my_session", JSON.stringify(my_session));
 
         greeting.innerHTML = `Hello ${accounts[userid].user}! Please enjoy your ChainCa$h experience this lovely ${day} ${time}!`
+        header_greeting.innerHTML = `Trade Of The Day: ${accounts[userid].user} sold his BTC calls for a -10000% profit!`;
         // hide account section
-        account_section.style.display = 'none';
-        log_in_header.style.display = 'none';
-        // display content
-        member_zone.style.display = 'block';
-        logged_in_header.style.display = 'block';
+        session_load();
+        session_timer();
     } else {
         alert ('Login unsuccessful, passwords and usernames are case sensitive, alternatively create an account');
     }
@@ -186,7 +148,7 @@ function log_in() {
 verification = () => {
     // Get accounts from local storage
     let accounts = JSON.parse(localStorage.getItem("accounts"));
-    console.log(accounts);
+    //console.log(accounts);
     let uname = username_input.value;
     let pword = password_input.value;
 
@@ -217,14 +179,14 @@ create_account = () => {
 
         if(validate_password() == true) {
 
-            console.log('password, valid')
+            //console.log('password, valid')
             let name_check = check_username();
-            console.log(name_check);
+            //console.log(name_check);
             if (name_check == true) {
 
-                console.log('this account can be created');  
+                //console.log('this account can be created');  
                 let accounts = JSON.parse(localStorage.getItem("accounts"));
-                console.log(accounts);
+                //console.log(accounts);
 
                 //create user object
                 let new_account = {
@@ -234,21 +196,22 @@ create_account = () => {
                 };
                 //push to array
                 accounts.push(new_account);
-                console.log(accounts);
+                //console.log(accounts);
 
                 localStorage.setItem("accounts", JSON.stringify(accounts));
 
                 //success message, ask to log in
-                console.log('account created, please try logging in');
+                account_section.style.display = 'none';
+                header_greeting.innerHTML = 'account created, please try logging in';
                 
             } else {
-                console.log('this username is already in use');
+                alert('this username is already in use');
             }
         } else {
-            console.log('password invalid');
+            alert('invalid password, please include 1 number, 1 upper case character and 1 special character');
         }
     } else {
-        console.log('passwords dont match');
+        alert('passwords dont match');
     }
 }
 
@@ -265,7 +228,7 @@ validate_password = () => {
         let i = 0; 
         while (i < new_pass.length) {
             const char = new_pass.charAt(i);
-            console.log(char.indexOf(specialChars));
+            //console.log(char.indexOf(specialChars));
             if (char * 2) {
                 //console.log(`${char} is numeric`);
                 numeric = true;
@@ -284,10 +247,10 @@ validate_password = () => {
         }
     }
 }
+
 new_account_btn.addEventListener('click', function() {
     create_account();
 })
-
 
 // new Username checker (Check if username already exists in local storage)
 check_username = () => {
@@ -295,7 +258,7 @@ check_username = () => {
     let accounts = JSON.parse(localStorage.getItem("accounts"));
     // username var
     const username = new_username.value;
-    console.log(accounts.length);
+    //console.log(accounts.length);
     for (i = 0; i < accounts.length; i++) {
         
         // check username against accounts
@@ -308,84 +271,43 @@ check_username = () => {
         
 }
 
+session_load = () => {
+    account_section.style.display = 'none';
+    log_in_header.style.display = 'none';
+        // display content
+    member_zone.style.display = 'block';
+    logged_in_header.style.display = 'block';
+
+}
+
 // Log out function 
 end_session = () => {
     // log in status should become false at this point and end function, unsure how to do this. 
-    //console.log(localStorage.getItem("my_session"));
-    let my_session = JSON.parse(localStorage.getItem("my_session"));
-    my_session = [];
-    console.log(my_session);
-    localStorage.setItem("my_session", JSON.stringify(my_session));
-    //console.log(localStorage.getItem("my_session"));
-}
+    localStorage.removeItem("my_session"); 
 
-
-// Session timeout (If account is online for over 20min, ask if they want to stay logged in);
-session_timer = () => {
-    // 20 minute timer starts when logged in, 
-    // gets reset if action is taken
-    // after 20 minutes, a message will pop up asking about staying logged in
-    // message has 30 second timer until automatic logout.
-    end_session();
-}
-//const minutes = new Date().getMinutes();
-
-log_out.addEventListener('click', function() {
-    greeting.innerHTML = `Please log in or create a new account to start donating to the NYSE.`
-    end_session();
-    // hide account section
+    greeting.innerHTML = `Please log in or create a new account to start donating to the NYSE.`;
+    header_greeting.innerHTML = "PLEASE LOG IN TO BEGIN GAMBLING WITH YOUR KIDS COLLEGE TUITION";
     account_section.style.display = 'none';
     log_in_header.style.display = 'block';
     // display content
     member_zone.style.display = 'none';
     logged_in_header.style.display = 'none';
+    warning.style.display = "none";
+}
+
+
+log_out.addEventListener('click', function() {
+    end_session();
 });
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+                                    /* UTILITY FUNCTIONS */
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 // Get time and day of week (use switch statement to decide day of week and time of day (morn, day, afternoon, night))
@@ -436,6 +358,45 @@ get_time_of_day();
 
 display_account_creation.addEventListener('click', function() {
     create_acc_div.style.display = 'flex';
-    console.log('account creator is displayed')
+    //console.log('account creator is displayed')
 });
 
+// Session timeout (If account is inactive for over 15min, ask if they want to stay signed in); 
+session_timer = () => {
+    warning_timer = setTimeout("idle_warning()", warning_timer_clock);
+}
+idle_warning = () => {
+    warning.style.display = "flex";
+    log_out_timer = setTimeout("end_session()", logout_now_clock);
+}
+
+timer_reset.addEventListener('click', function() {
+    clearTimeout(logout_now_clock);
+    clearTimeout(warning_timer_clock);
+    warning.style.display = "none";
+    session_timer();
+});
+
+log_out.addEventListener('click', function() {
+    end_session();
+});
+
+no_un_value = () => {
+    username_input.value = "";
+}
+no_pass_value = () => {  
+    password_input.value = "";
+}
+
+
+
+// check for active session in LS
+if (localStorage.getItem("my_session")) {
+    let user = JSON.parse(localStorage.getItem("my_session"));
+    greeting.innerHTML = `Hello ${user.user}! Please enjoy your ChainCa$h experience this lovely ${day} ${time}!`
+    header_greeting.innerHTML = `Trade Of The Day: ${user.user} sold his BTC calls for a -10000% profit!`;
+    session_load();
+    session_timer();
+} else {
+    //console.log('no session detected');
+}

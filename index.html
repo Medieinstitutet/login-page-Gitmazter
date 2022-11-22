@@ -11,14 +11,22 @@
 </head>
 
 <body>
+    <div id="warning">
+        <h1>You are about to be logged out due to inactivity!</h1>
+        <button id="timer_reset">Click me to continue making J Powell dry his tears with 100$ bills</button>
+    </div>
     <header>
         <a href="index.html"><img src="images/Favicon.png" alt="logo"></a>   
-        <p>PLEASE LOG IN TO BEGIN GAMBLING WITH YOUR KIDS COLLEGE TUITION</p> 
+        <p id="header_greeting">PLEASE LOG IN TO BEGIN GAMBLING WITH YOUR KIDS COLLEGE TUITION</p> 
         <div id="login">
-            <input type="text" id="username_input" value="username" onclick="noValue()">
-            <input type="text" id="password_input" value="password" onclick="noValue()">
-            <button id="log_in_btn">Log In</button>
-            <button id="display_create_account">Create Account</button>
+            <div>
+                <input type="text" id="username_input" value="username" onclick="no_un_value()">
+                <input type="password" id="password_input" value="password" onclick="no_pass_value()">
+            </div>
+            <div id="login_btns">
+                <button id="log_in_btn">Log In</button>
+                <button id="display_create_account">Create Account</button>
+            </div>
         </div>
         <div id="logged_in">
             <button id="log_out">Log Out</button>
@@ -35,23 +43,13 @@
 
         <!-- Log In Section -->
         <div id="account_section">
-          <!--   <div id="login">
-                <p>Username:</p>
-                <input type="text" id="username_input">
-                <p>Password:</p>
-                <input type="text" id="password_input">
-                <button id="log_in_btn">Log In</button>
-            </div> -->
-
-            <!-- Input type="password" returns empty string as security measure,play with later -->
-            <!-- Password input works as intended, though the value is un-loggable -->
             <div id="create_acc">
                 <p>Please enter a username:</p>
                 <input id="new_username">
                 <p>Password:</p>
-                <input id="new_password" type="text">
+                <input id="new_password" type="password">
                 <p>Repeat Password:</p>
-                <input id="new_password_rep" type="text">
+                <input id="new_password_rep" type="password">
                 <button id="new_account_btn">Create Account</button>
             </div>
         </div>
@@ -83,7 +81,7 @@
                         <br/>
                         God bless and best wishes from the ChainCa$h team!
                         <br/>
-                        To the ground!
+                        To the core!
                     </p>
                 </div>
                 <img src="images/Coop.png">
