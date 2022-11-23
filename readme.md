@@ -1,13 +1,13 @@
-Users:
+    {id:1, user:'janne', password:"test",},
 
-0: Object { id: 1, user: "philip", password: "Supersafe1!" 
+    {id:2, user:'clever_parrot', password: "C4nt.go.tits.up",},
 
-1: Object { id: 2, user: "guh", password: "C4nt.go.tits.up" 
+    {id:3, user:'thetaboss', password:"putsnocalls",},
 
-2: Object { id: 3, user: "janne", password: "test" 
+    {id:4, user:'Sam Bankman Fried', password:'12345678',},
 
-3: Object { id: 4, user: "allanballan", password: "Yesbox22!" 
-
-4: Object { id: 5, user: "degenerategambler", password: "Idon'tcare1!" 
-
-5: Object { id: 6, user: "degenerategambler69", password: "Iwantmoney!1" 
+    {id:5, user:'Colonel Sanders', password:'KFC',},
+    
+    {id:6, user:'Guh', password:'guh',},
+    
+    {id:7, user:'Degenerategambler69', password:'gme4ever',},
