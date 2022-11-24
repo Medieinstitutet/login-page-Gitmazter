@@ -124,7 +124,7 @@ verification = () => {
     if (user_object == undefined) {alert('Username is not in use')}
     if (user_object.password === password_input.value) {
         userid = user_object.id - 1;
-        console.log(userid);
+        // console.log(userid);
         return true;
     }
 }
@@ -166,9 +166,10 @@ new_account_btn.addEventListener('click', function() {
 validate_password = () => {
     const pass = new_password.value;
     if (pass.length >= 8 && pass.toLowerCase() != pass && /\d/.test(pass) && special.test(pass)) {return true;}
-} 
+}
 
 session_load = () => {
+        // hidden content
     account_section.style.display = 'none';
     log_in_header.style.display = 'none';
         // display content
@@ -257,7 +258,7 @@ get_time_of_day = () => {
 get_time_of_day();
 
 
-// Session timeout /* Variables on row 31,32 */ (If account is inactive for over 15min, ask if they want to stay signed in); 
+// Session timeout /* Variables on row 68, 69*/ (If account is inactive for over 15min, ask if they want to stay signed in); 
 session_timer = () => {
     warning_timer = setTimeout("idle_warning()", warning_timer_clock);
 }
