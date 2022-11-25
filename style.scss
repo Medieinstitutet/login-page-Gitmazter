@@ -34,6 +34,7 @@ body {
 
 header {
     background-color: antiquewhite;
+    min-height: fit-content;
     max-height: 110px;
     width: 100vw;
     padding-bottom: 1vh;
@@ -52,6 +53,7 @@ header {
     }
     p {
         align-self:center;
+
     }
   
     #logged_in{
@@ -64,18 +66,33 @@ header {
         padding-left: 1vw;
         border: 3px outset black;
         border-radius: 15px;
-        height: 3vh;
-        width: 8vw; 
+        min-height: fit-content;
+        width: 100px;
+
     }
     button {
         background-color: orange;
         border: 3px outset black;
         border-radius: 15px;
-        height: 3vh;
+        min-height: fit-content;
+        min-width: fit-content;
+        font-size: 10px;
         width: 8vw;
         margin-left: 1vw;
         cursor: pointer;
     }
+}
+#log_out {
+    background-color: orange;
+        border: 3px outset black;
+        border-radius: 15px;
+        min-height: fit-content;
+        min-width: fit-content;
+        font-size: 10px;
+        width: 8vw;
+        margin-left: 1vw;
+        cursor: pointer;
+        margin-right: 20px;
 }
 #user_greeting {
     font-size: 2.5em;
